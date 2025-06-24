@@ -1,4 +1,5 @@
-__all__ = ["DiscreteActorCritic"]
+__all__ = ["VPGAgent", "PPOAgent"]
 
 
-from agent.model import DiscreteActorCritic
+from agent.vpg import VPGAgent
+from agent.ppo import PPOAgent
