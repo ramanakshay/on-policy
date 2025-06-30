@@ -11,7 +11,7 @@ class OnPolicyRLTrainer:
         self.buffer = buffer
         self.evaluator = Evaluator(env, agent, config.evaluator)
 
-    def run_epoch(self):
+    def run_training(self):
         obs, info = self.env.reset()
         for step in range(self.buffer.capacity):
             act, logprob = self.agent.act(obs)
@@ -33,12 +33,12 @@ class OnPolicyRLTrainer:
                 obs = next_obs
 
         batch = self.buffer.get_batch()
-        self.agent.update(batch)
+        self.agent.train(batch)
         self.buffer.reset()
 
     def run(self):
         print(f"Total Timesteps = {self.config.epochs * self.buffer.capacity}")
         for epoch in tqdm(range(self.config.epochs)):
-            self.run_epoch()
+            self.run_training()
             if epoch % self.config.eval_interval == 0:
                 self.evaluator.run()

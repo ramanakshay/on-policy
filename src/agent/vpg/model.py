@@ -67,7 +67,7 @@ class VPGAgent:
 
         return actor_loss, critic_loss
 
-    def update(self, batch):
+    def train(self, batch):
         for key in batch:
             batch[key] = torch.from_numpy(batch[key]).to(self.device)
 
@@ -79,10 +79,12 @@ class VPGAgent:
             batch["done"],
         )
 
-        self.optimizer.zero_grad()
         actor_loss, critic_loss = self._calculate_losses(obs, act, next_obs, rew, done)
         actor_loss.backward()
         critic_loss.backward()
         self.optimizer.step()
+        self.optimizer.zero_grad()
 
-        return actor_loss.item(), critic_loss.item()
+        loss = {"actor": actor_loss.item(), "critic": critic_loss.item()}
+
+        return loss
