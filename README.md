@@ -5,5 +5,5 @@ On-policy RL (VPG, PPO) algorithms from scratch.
 ## Commands
 
 * `make install` - Install dependencies.
-* `make train` - Train model.
+* `make [train-ppo|train-vpg]` - Train model.
 * `make clean` - Clean project artifacts.
